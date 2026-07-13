@@ -20,12 +20,30 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <NavText>Sale</NavText>
+            <HoverText>Sale</HoverText>
+          </NavLink>
+          <NavLink href="/new">
+            <NavText>New&nbsp;Releases</NavText>
+            <HoverText>New&nbsp;Releases</HoverText>
+          </NavLink>
+          <NavLink href="/men">
+            <NavText>Men</NavText>
+            <HoverText>Men</HoverText>
+          </NavLink>
+          <NavLink href="/women">
+            <NavText>Women</NavText>
+            <HoverText>Women</HoverText>
+          </NavLink>
+          <NavLink href="/kids">
+            <NavText>Kids</NavText>
+            <HoverText>Kids</HoverText>
+          </NavLink>
+          <NavLink href="/collections">
+            <NavText>Collections</NavText>
+            <HoverText>Collections</HoverText>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -115,15 +133,71 @@ const Filler = styled.div`
 `;
 
 const NavLink = styled.a`
+  position: relative;
+  display: block;
+  outline: none;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
+  padding-bottom: 3px;
+  margin-bottom: -3px;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
+  overflow: hidden;
 
   &:first-of-type {
     color: var(--color-secondary);
   }
+
+  &::before {
+    position: absolute;
+    content:"";
+    bottom: 0;
+    left: 0;
+    width: 0px;
+    border-bottom: 3px solid var(--color-gray-900);
+    transition: width 500ms;
+  }
+
+  &:first-of-type::before {
+    border-color: var(--color-secondary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover::before {
+      width: 100%;
+    }
+  }
+`;
+
+const Text = styled.span`
+  display: block;
+  transform: translateY(var(--translate-from));
+  transition: transform 500ms;
+
+  @media (prefers-reduced-motion: no-preference) {
+    ${NavLink}:hover & {
+      transform: translateY(var(--translate-to));
+      transition: transform 200ms;
+    }
+  }
+`;
+
+const NavText = styled(Text)`
+  --translate-from: 0%;
+  --translate-to: -100%;
+`;
+
+const HoverText = styled(Text)`
+  --translate-from: 100%;
+  --translate-to: 0%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-weight: ${WEIGHTS.bold};
 `;
 
 export default Header;
